@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Link from 'next/link'
-import NextLogo from '../../../public/next.svg'
+import POS from '../../../public/pos.jpg'
 import Image from 'next/image'
 import { signOut } from 'next-auth/react'
 
@@ -11,7 +11,7 @@ function Navbar({ session }) {
     <nav className='flex justify-between items-center shadow-md p-5'>
         <div>
             <Link href="/">
-                <Image src={NextLogo} width={100} height={100} alt='nextjs logo' /> 
+                <Image src={POS} width={100} height={100} alt='nextjs logo' /> 
             </Link>
         </div>
         <ul className='flex space-x-4'>
@@ -22,8 +22,8 @@ function Navbar({ session }) {
                 </>
             ) : (
                 <>
-                    <li><Link href="/welcome" className='bg-gray-500 text-white border py-2 px-3 rounded-md text-lg my-2'>Profile</Link></li>
-                    <li><a onClick={() => signOut()} className='bg-red-500 text-white border py-2 px-3 rounded-md text-lg my-2'>Logout</a></li>
+                   
+                    <li><a onClick={() => signOut()} className='bg-red-500 text-white border py-2 px-3 rounded-md text-lg my-2 cursor-pointer'>Logout</a></li>
                 </>
             )}
         </ul>

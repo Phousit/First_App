@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import DeleteBtn from "../Delete";
 // ...existing code...
 
 export default function Home() {
@@ -77,16 +78,12 @@ export default function Home() {
                     <div className="mt-5 flex gap-3">
                       <Link
                         className="bg-yellow-500 text-white border py-2 px-3 rounded-md text-lg "
-                        href={`/edit/${id}`}
+                        href={`/edit/${val._id}`}
                       >
                         Edit
                       </Link>
-                      <Link
-                        className="bg-red-500 text-white border py-2 px-3 rounded-md text-lg ml-2"
-                        href={`/delete/${id}`}
-                      >
-                        Delete
-                      </Link>
+                      <DeleteBtn id={val._id} />
+                     
                     </div>
                   </div>
                 )

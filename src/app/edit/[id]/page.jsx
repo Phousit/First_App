@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+
 function EditePostPage({ params }) {
   const { id } = params;
 
@@ -16,6 +17,7 @@ function EditePostPage({ params }) {
   const [newContent, setNewContent] = useState("");
 
   const router = useRouter();
+   
 
   const getPostsById = async (id) => {
     try {
