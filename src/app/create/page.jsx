@@ -1,21 +1,31 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Navbar from "../components/Navbar";
 import { useSession } from "next-auth/react";
 
-function CreatePostPage() {
+export default function CreatePostPage() {
   const [title, setTitle] = useState("");
   const [img, setImg] = useState("");
   const [content, setContent] = useState("");
   const router = useRouter();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+
+  // ✅ ใช้ useEffect เพื่อ redirect เฉพาะตอน client load เสร็จแล้ว
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/login");
+    }
+  }, [status, router]);
+
+  if (status === "loading") {
+    return <p>Loading...</p>;
+  }
 
   if (!session) {
-    router.push("/login");
-    return null;
+    return null; // อย่า render อะไรจนกว่าจะรู้ว่า session มีไหม
   }
 
   const handleSubmit = async (e) => {
@@ -29,9 +39,7 @@ function CreatePostPage() {
     try {
       const res = await fetch("/api/posts", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title, img, content }),
       });
 
@@ -92,5 +100,3 @@ function CreatePostPage() {
     </main>
   );
 }
-
-export default CreatePostPage;
