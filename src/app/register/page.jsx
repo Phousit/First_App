@@ -33,14 +33,13 @@ function RegisterPage() {
             return;
         }
 
-        const resCheckUser = await fetch("http://localhost:3000/api/usercheck", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email })
-        })
-
+        const resCheckUser = await fetch("/api/usercheck", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email })
+});
         const { user } = await resCheckUser.json();
 
         if (user) { 
@@ -49,16 +48,15 @@ function RegisterPage() {
         }
 
         try {
-            const res = await fetch("http://localhost:3000/api/register", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    name, email, password
-                })
-            })
-
+            const res = await fetch("/api/register", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        name, email, password
+    })
+});
             if (res.ok) {
                 const form = e.target;
                 setError("");

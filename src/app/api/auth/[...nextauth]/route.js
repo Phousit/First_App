@@ -10,32 +10,36 @@ const authOptions = {
           name: 'credentials',
           credentials: {},
           async authorize(credentials) {
-           
-            const { email, password } = credentials;
+  const { email, password } = credentials;
 
-            try {
+  try {
+    await connectMongoDB();
+    const user = await User.findOne({ email });
 
-                await connectMongoDB();
-                const user = await User.findOne({ email });
+    if (!user) {
+      throw new Error("No user found with this email");
+    }
 
-                if (!user) {
-                    return null;
-                }
+    const passwordMatch = await bcrypt.compare(password, user.password);
 
-                const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      throw new Error("Invalid password");
+    }
 
-                if (!passwordMatch) {
-                    return null;
-                }
+    // ✅ ต้อง return object ที่ NextAuth ใช้ได้
+    return {
+      id: user._id.toString(),
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    };
 
-                console.log(user);
-                return user;
+  } catch (error) {
+    console.log("Error in authorize:", error);
+    throw new Error("Authorization failed");
+  }
+}
 
-            } catch(error) {
-                console.log("Error: ", error)
-            }
-
-          }
         })
     ],
     session: {
